@@ -1,0 +1,16 @@
+---
+title: "Notas de ejemplo de mi curso de Rstudio"
+author: "Carlos Garcia"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Esta es la página principal de mi ejemplo de cómo publicar páginas web con GitHub y Rtudio.
+
+Estos son algunas de las páginas que también hemos cargado pero que requieren ser invocadas por su nombre:
+
+[Página web del jeercicio del análisis del precio del arroz mexicano](https://github.com/cgarciaochoa/pruebaCursoR2024CGOtec/analisisPrecioArrozMX.html)

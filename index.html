@@ -11,9 +11,9 @@
 
 <meta name="author" content="Carlos Garcia" />
 
-<meta name="date" content="2024-07-03" />
+<meta name="date" content="2024-07-08" />
 
-<title>Mi primer Rmarkdown</title>
+<title>Notas de ejemplo de mi curso de Rstudio</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,141 +350,20 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Mi primer Rmarkdown</h1>
+<h1 class="title toc-ignore">Notas de ejemplo de mi curso de
+Rstudio</h1>
 <h4 class="author">Carlos Garcia</h4>
-<h4 class="date">2024-07-03</h4>
+<h4 class="date">2024-07-08</h4>
 
 </div>
 
 
-<div id="introducción" class="section level1">
-<h1>Introducción</h1>
-<p>En estas notas en línea vamos a ilustrar algunos cálculos simples y
-creaciones de objetos. Esto para ilustrar el empleo de archivos *.RMD o
-Rmarkdawn.</p>
-</div>
-<div id="creación-de-objetos-de-todos-tipos" class="section level1">
-<h1>Creación de objetos de todos tipos</h1>
-<p>En esta seccióon creamos varios tipos de objeto de R de interés.
-<strong>Estos objetos son de los principales pero existen más tipos de
-objetos</strong> Esto quiere decir que podemos investigar <em>al
-gusto</em> los otros objetos. Comencemos. <strong>Nota:</strong> El cómo
-hacer este tipo de páginas web lo puede consultar en <a href="www.google.com">el sitio web de google</a></p>
-<p>Comenzamos con un vector de números:</p>
-<pre class="r"><code>#Creamos un vector de puros números al gusto:
-miVector2=c(1,7,6,15,pi,pi*2)
-# imprimo en pantalla los valores del objeto miVector2
-miVector2</code></pre>
-<pre><code>## [1]  1.000000  7.000000  6.000000 15.000000  3.141593  6.283185</code></pre>
-<div id="creación-de-objetos-tipo-data.frame-o-tabla-de-datos" class="section level2">
-<h2>Creación de objetos tipo data.frame o tabla de datos</h2>
-<p>En el siguiente fragmento de código creamos una tabla de datos de 10
-fechas teóricas con 10 observaciones de una variable aleatoria (<span class="math inline">\(X_i\)</span>) gaussianamente distribuida con media
-de cero y desviación estándar de 1:</p>
-<p><span class="math display">\[x_i=f(x_i,mu=0,sigma=1)\]</span></p>
-<p><strong>Nota:</strong> Para conocer cómo escribir una ecuación con
-Latex como las anteriores <a href>puede consultar esta liga</a></p>
-<pre class="r"><code># Creamos las fechas:
-secuenciaFechas=seq(from=as.Date(&quot;2024-07-01&quot;), to=as.Date(&quot;2024-07-10&quot;),by=1)
-# Creamos los números aleatorios:
-vectorAleatorio=rnorm(10,mean=0,sd=1)
-# Creamos el objeto data.frame
-tablaDatos2=data.frame(Fecha=secuenciaFechas,Valores=vectorAleatorio)
-# Imprimo el resultado: tablaDatos2</code></pre>
-</div>
-</div>
-<div id="importación-de-datos-de-fuentes-externas" class="section level1">
-<h1>Importación de datos de fuentes externas</h1>
-<p>A continuación se revisará cómo importar datos de fuentes externas
-como es INEGI, Banxico, Banco Mundial, archivo de Excelu otras
-fuentes.</p>
-<div id="importación-de-datos-de-tablas-en-excel" class="section level2">
-<h2>Importación de datos de tablas en excel</h2>
-<p>Comenzamos importando un arhcivo de Excel con los históricos de los
-precios del arroz (de todos los tipos producidos en México) registrados
-en diferentes centrales de abasto en el país. Para esto requeriremos una
-librería llamada openXlsx.</p>
-<p>Para instalar esta librería necesitamos ejecutar el comando o función
-install.packages(“openxlsx”)</p>
-<pre class="r"><code>install.packages(&quot;openxlsx&quot;)</code></pre>
-<p>Una vez instalada, siempre que queramos utilizar la librería en un
-nuevo archivo, invocamos la librería con la función
-library(openxlsx)</p>
-<pre class="r"><code># Se carga la librería openxls:
-library(openxlsx)
-# Con la librería cargada, se importan los datos de los precios del arroz:
-Datos=read.xlsx(&quot;datosArroz.xlsx&quot;)</code></pre>
-</div>
-</div>
-<div id="indización-de-objetos" class="section level1">
-<h1>Indización de objetos</h1>
-<p>La indización nos sirve para poder extraer una parte de los valores
-guardados en un objeto de cualquier tipo. La indización puede ser
-ampliamente utilizada en vectores o matrices tipo numérico (double) o
-tipo character. La indización también será muy útil para extraer o
-modificar valores en objetos de los tipos anteriores y en objetos
-data.frame.</p>
-<p>Por ejemplo, si queremos extraer la quinta fila del objeto miVector2,
-la instrucción sería la siguiente:</p>
-<pre class="r"><code>miVector2[5]</code></pre>
-<pre><code>## [1] 3.141593</code></pre>
-<p>Incluso, podemos guardar el valor en un objeto nuevo:</p>
-<pre class="r"><code>valorPi=miVector2[5]</code></pre>
-<p>También podemos indizar o extraer un rango de filas o columnas a
-nuestro gusto:</p>
-<pre class="r"><code>miVector2[2:4]</code></pre>
-<pre><code>## [1]  7  6 15</code></pre>
-<p>También podemos indizar filas o columnas a nuestro gusto creando, en
-lugar de x:y con la secuencia de filas, un vector con los números de
-fila de interés a nuestro gusto: c(fila1,fila2,fila3,…)</p>
-<pre class="r"><code>miVector2[c(5,6,1,4,5,3,2,6)]</code></pre>
-<pre><code>## [1]  3.141593  6.283185  1.000000 15.000000  3.141593  6.000000  7.000000
-## [8]  6.283185</code></pre>
-<p>En el caso de objetos data.frame (tabla de datos) también podemos
-indizar filas y columnas. Por ejemplo, queremos extraer las primeras
-filas de la columna 2 del objeto tablaDatos2:</p>
-<pre class="r"><code>tablaDatos2[1:3,2]</code></pre>
-<pre><code>## [1] -0.1672778 -0.5698764 -0.2006890</code></pre>
-<p>Si quiero extraer, de manera arbitraria, las filas y columnas,
-también podemos hacerlo:</p>
-<pre class="r"><code>tablaDatos2[c(2,5,3,1),c(2,1)]</code></pre>
-<pre><code>##       Valores      Fecha
-## 2 -0.56987645 2024-07-02
-## 5 -0.04962253 2024-07-05
-## 3 -0.20068896 2024-07-03
-## 1 -0.16727785 2024-07-01</code></pre>
-<p>También podemos seleccioanr un rango de filas y columnas en
-secuencia. Por ejemplo, podemos extraer las filas 5 a 10 y columnas 2 a
-5 del objeto Datos:</p>
-<pre class="r"><code>Datos[5:10,2:5]</code></pre>
-<pre><code>##    Fecha           Origen                                             Destino
-## 5  35802 Distrito Federal                  Oaxaca: Módulo de Abasto de Oaxaca
-## 6  35802 Distrito Federal        Veracruz: Otros Centros Mayoristas de Xalapa
-## 7  35802          Morelos Aguascalientes: Central de Abasto de Aguascalientes
-## 8  35802          Jalisco           Colima: Centros de distribución de Colima
-## 9  35802         Veracruz  Campeche: Mercado Pedro Sáinz de Baranda, Campeche
-## 10 35802          Sinaloa               Guanajuato: Central de Abasto de León
-##    Precio.Mínimo
-## 5            4.0
-## 6            4.5
-## 7            6.0
-## 8            4.9
-## 9            4.3
-## 10           5.0</code></pre>
-<div id="trucos-adicionales-de-indización" class="section level2">
-<h2>Trucos adicionales de indización</h2>
-<p>Supongamos que una tabla de datos de entrada tiene columas y número
-de filas cambiantes y queremo siempre estar importando un rango de filas
-y/o columnas que terminen con la últa de estas. Para ellos nos
-auxiliaremos de dos funciones:</p>
-<ul>
-<li>La función ncol() que determina el número de columnas en un objeto
-data.frame o matrix.</li>
-<li>La función nrow() que determina el número de filas en un objeto
-data.frame o matrix.</li>
-</ul>
-</div>
-</div>
+<p>Esta es la página principal de mi ejemplo de cómo publicar páginas
+web con GitHub y Rtudio.</p>
+<p>Estos son algunas de las páginas que también hemos cargado pero que
+requieren ser invocadas por su nombre:</p>
+<p><a href="https://github.com/cgarciaochoa/pruebaCursoR2024CGOtec/analisisPrecioArrozMX.html">Página
+web del jeercicio del análisis del precio del arroz mexicano</a></p>
 
 
 
