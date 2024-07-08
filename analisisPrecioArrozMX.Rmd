@@ -1,0 +1,84 @@
+---
+title: "Análisis del precio del arroz en México"
+author: "Carlos Garcia"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Se carga la librería openxlsx:
+library(openxlsx)
+# Se carga la libreriá de tabla de datos DT:
+library(DT)
+# Se carga la librería de análisis de datos dplyr:
+library(dplyr)
+```
+
+# Introducción
+
+En este documento se realizará un análisis estadístico y gráfico del precio del arroz cultivado y comercializado en las principales centrales de abasto de México. 
+
+```{r importaDatosArroz}
+# Con la librería cargada, se importan los datos de los precios del arroz:
+Datos=read.xlsx("datosArroz.xlsx")
+
+# Convertimos la columna Fecha que tiene un origen de Excel el 30 de diciembre de 1899 para que quede la fecha correcta:
+Datos$Fecha=as.Date(Datos$Fecha,origin="1899-12-30")
+
+# Se presentan los datos importados on la función datatable que es para páginas web:
+datatable(Datos)
+```
+
+Como se puede apreciar, la tabla anterior se realizó con la función datatable que es parte de la libreria DT. **Este tipo de tabla solo puede utilizarse para presentarse en páginas web, dashboards o documentos html o en línea. No será útil para compilar documentar en word o en pdf**. Para ello se utilizan otras librerías.
+
+Con los datos anteriores, nos interesa saber cuáles estados se encuentran registrados en la base de datos Datos. Para esto, debemos convertir la columna Origen de ser un objeto tipo character a un objeto tipo factor. Este último tipo de objeto es útil para análisis estadísticos y gráficos y encontrar factores o clase (grupos, Estados)
+
+```{r}
+# Convertimos a objeto tipo factor los datos de la columna Origen:
+Datos$Origen=factor(Datos$Origen)
+
+# Imprimimos los "niveles" de factores (léase Estados) que hay registrados:
+levels(Datos$Origen)
+```
+En nuestro análisis nos interesa solamente los datos del Estado de Michoacán. PAra ello generaremos un objeto llamado datosMichoacan que contrendrá solamente los datos del Estado de Michocán.
+
+```{r}
+# Seleccionamos los datos del Estado de Michoacán:
+datosMichoacan=subset(Datos,Origen=="Michoacán")
+datatable(datosMichoacan)
+```
+
+
+Repetimos el proceso de filtrado anterior pero ahora utilizaremos la librería dplyr.
+
+```{r}
+# Seleccionamos los datos del Estado de Michoacán con la función filter de dplyr:
+datosMichoacan2=Datos %>% filter(Origen=="Michoacán")
+```
+
+
+Ahora nos interesa filtrar de manera conjunta, los datos del Estado de Michoacán y de la central de abastos de Morelia (Destino=="Mercado de Abasto de Morelia"):
+
+```{r}
+# Seleccionamos los datos del Estado de Michoacán con la función filter de dplyr:
+datosMichoacan3=Datos %>% filter(Origen=="Michoacán")%>% filter(Destino=="Michoacán: Mercado de Abasto de Morelia")
+datatable(datosMichoacan3)
+```
+
+Ahora, nos interesa saber cuál es el precio promedio del arroz en México por fecha. Para ello, utilizamos la función group_by de dplyr con la función sumarise:
+
+```{r}
+# Generamos la tabla de datos de precios promedio por fecha:
+preciosPromedio=Datos %>% group_by(Fecha) %>% summarize(PrecioPromedio=mean(Precio.Frecuente))
+
+datatable(preciosPromedio)
+```
+
+Podemos generar una gráfica simple y fea como la siguiente:
+```{r}
+plot(x=preciosPromedio$Fecha,y=preciosPromedio$PrecioPromedio,type="l")
+plot(x=preciosPromedio$Fecha,y=preciosPromedio$PrecioPromedio,type="p")
+plot(x=preciosPromedio$Fecha,y=preciosPromedio$PrecioPromedio,type="b")
+```
+
